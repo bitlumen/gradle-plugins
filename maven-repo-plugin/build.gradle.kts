@@ -6,6 +6,10 @@ plugins {
 version = "1.0.0"
 description = "Gradle Maven Repository Plugin for Gradle Build"
 
+repositories {
+    mavenCentral()
+}
+
 java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))

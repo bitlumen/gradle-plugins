@@ -4,6 +4,9 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.initialization.Settings
+import org.gradle.kotlin.dsl.DependencyHandlerScope
+import org.gradle.api.provider.Provider
+import org.gradle.plugin.use.PluginDependency
 import java.net.URI
 
 /**
@@ -110,3 +113,19 @@ fun RepositoryHandler.mavenPublishEnv(envPrefix: String, isSnapshot: Boolean) {
 private fun getEnv(envName: String): String {
     return System.getenv(envName) ?: throw IllegalStateException("Environment 【$envName】 is not set!")
 }
+
+/**
+ * 将插件转换为Gradle插件依赖的GAV格式
+ *
+ * @param plugin 插件
+ * @return 格式为 "pluginId:pluginId.gradle.plugin:version" 的 GAV 字符串
+ */
+fun DependencyHandlerScope.pluginGAV(plugin: Provider<PluginDependency>) = plugin.map { pluginGAV(it.pluginId, it.version.toString()) }
+
+/**
+ * 将插件ID和版本转换为Gradle插件依赖的GAV格式
+ * @param pluginId 插件ID (如 "com.example")
+ * @param version 插件版本 (如 "1.0.0")
+ * @return 格式为 "pluginId:pluginId.gradle.plugin:version" 的 GAV 字符串
+ */
+fun DependencyHandlerScope.pluginGAV(pluginId: String, version: String) = "${pluginId}:${pluginId}.gradle.plugin:${version}"
