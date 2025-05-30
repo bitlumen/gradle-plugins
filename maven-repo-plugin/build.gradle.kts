@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.plugin.publish)
 }
 
-version = "1.0.0"
+version = "1.0.1"
 description = "Gradle Maven Repository Plugin for Gradle Build"
 
 repositories {
